@@ -20,4 +20,11 @@ def get_user_input():
         raise ValueError(WRONG_TYPE_MESSAGE)
 
     expense_category = input(f"Enter expense category from {next(iter(Expense.EXPENSE_CATEGORY))} to {len(Expense.EXPENSE_CATEGORY)}: ")
+    try:
+        expense_category = int(expense_category)
+        if expense_category < next(iter(Expense.EXPENSE_CATEGORY)) or expense_category > len(Expense.EXPENSE_CATEGORY):
+            raise TypeError(WRONG_EXPENSE_CATEGORY)
+    except ValueError:
+        raise ValueError(WRONG_TYPE_MESSAGE)
+
     return expense_name, float(expense_cost), int(expense_category)
