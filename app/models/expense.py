@@ -1,5 +1,5 @@
 class Expense:
-    MONTHLY_BUDGET = 2000;
+    MONTHLY_BUDGET = 2000
     PATH_TO_FILE = "expenses.csv"
     EXPENSE_CATEGORY = {
      1: "food",
@@ -13,3 +13,12 @@ class Expense:
         self.name = name
         self.price = price
         self.category = category
+
+    def get_name(self):
+        return self.name
+
+    def get_price(self):
+        return self.price
+
+    def get_category(self):
+        return self.category
