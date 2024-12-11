@@ -1,14 +1,14 @@
+from app.models.expense import Expense
+
 
 class ExpenseController:
-    def __init__(self, view, model):
+    def __init__(self, view):
         self.view = view
-        self.model = model
-
-    def get_model(self):
-        return self.model
 
     def get_view(self):
         return self.view
 
-    #def get_expense(self):
-      #pass
+    def add_expense(self):
+      name, price, category = self.view.get_user_input()
+      expense = Expense(name, float(price), int(category))
+      self.view.display_expense(expense)
