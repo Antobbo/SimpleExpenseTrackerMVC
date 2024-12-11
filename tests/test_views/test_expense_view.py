@@ -1,6 +1,9 @@
+import sys
 import unittest
+from io import StringIO
 from unittest.mock import patch
 
+from app.models.expense import Expense
 from app.views import expense_view
 
 
@@ -84,6 +87,33 @@ class TestExpenseView(unittest.TestCase):
             result = expense_view.get_user_input()
         # then
         self.assertIn(expense_view.WRONG_TYPE_MESSAGE, str(context.exception))
+
+    def test_should_print_expected_expense_details(self):
+        #given
+        expense = Expense('burger', 10, 1)
+        captured_output = StringIO()
+        #redirect stdout
+        sys.stdout = captured_output
+        expense_view.display_expense(expense)
+        self.assertEqual(captured_output.getvalue().strip(), "Added expense: burger, £10, category 1")
+
+    def test_should_print_expense_breakdown_correctly(self):
+        breakdown = {
+            "Food": 50.0,
+            "Transport": 30.5,
+            "Entertainment": 20.0
+        }
+        expected_output = (
+            "Category Food: £50.0\n"
+            "Category Transport: £30.5\n"
+            "Category Entertainment: £20.0"
+        )
+
+        captured_output = StringIO()
+        # redirect stdout
+        sys.stdout = captured_output
+        expense_view.display_breakdown(breakdown)
+        self.assertEqual(captured_output.getvalue().strip(), expected_output)
 
 if __name__ == '__main__':
     unittest.main()

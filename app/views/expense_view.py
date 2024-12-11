@@ -8,7 +8,6 @@ def get_data():
     print(f"Expense app tracker.")
     user_input = get_user_input()
 
-
 def get_user_input():
     expense_name = input("Enter expense name: ")
     if not isinstance(expense_name, str) or expense_name.strip() == '':
@@ -28,3 +27,16 @@ def get_user_input():
         raise ValueError(WRONG_TYPE_MESSAGE)
 
     return expense_name, float(expense_cost), int(expense_category)
+
+def display_total(total):
+    print(f"You've spent a total of £{total}")
+
+def display_expense(expense):
+    print(f"Added expense: {expense.name}, £{expense.price}, category {expense.category}")
+
+def display_remaining_allowance(remaining_allowance):
+    print(f"You have left £{remaining_allowance}")
+
+def display_breakdown(breakdown):
+    for category, total in breakdown.items():
+        print(f"Category {category}: £{total}")
