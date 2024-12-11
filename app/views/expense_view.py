@@ -9,6 +9,9 @@ class ExpenseView:
     WRONG_TYPE_MESSAGE = "The value should be a number"
     WRONG_EXPENSE_CATEGORY = f"Must be from {next(iter(Expense.EXPENSE_CATEGORY))} to {len(Expense.EXPENSE_CATEGORY)}"
 
+    def get_view_name(self):
+        return self.view_name
+
     def get_data(self):
         print(f"Expense app tracker.")
         return self.get_user_input()
