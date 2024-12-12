@@ -143,6 +143,28 @@ class TestExpenseController(unittest.TestCase):
         self.assertTrue('water' in col_list)
         self.delete_file(Expense.PATH_TO_FILE)
 
+    @patch('builtins.input', side_effect=["water", "250.99", "2", "groceries", "100.50", "1", "gym", "50", "4"])
+    def test_should_add_multiple_expenses_to_file(self, mock_input):
+        # given
+        view = ExpenseView("DefaultV")
+        model = Expense("empty", "0.00", "0")
+        self.controller = ExpenseController(view, model)
+
+        # when
+        self.controller.add_expense()
+        self.controller.add_expense()
+        self.controller.add_expense()
+
+        # then
+        df = pd.read_csv(Expense.PATH_TO_FILE, header=None)
+        rows = len(df)
+        self.assertEqual(rows, 3, "Row number should be 3")
+        col_list = df[0].tolist()
+        self.assertTrue('water' in col_list)
+        self.assertTrue('groceries' in col_list)
+        self.assertTrue('gym' in col_list)
+        self.delete_file(Expense.PATH_TO_FILE)
+
     @staticmethod
     def delete_file(file_name):
         # Clean up by removing the file after the test

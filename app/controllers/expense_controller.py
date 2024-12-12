@@ -20,9 +20,10 @@ class ExpenseController:
       #self.model.name = name
       #self.model.price = price
      # self.model.category = category
+      expense = Expense(name, price, category)
 
-      self.view.display_expense(self.model)
-      self.model.add_expense_to_file(self.model)
+      self.view.display_expense(expense)
+      self.model.add_expense_to_file(expense)
 
 
     def show_total_expenditure(self):
