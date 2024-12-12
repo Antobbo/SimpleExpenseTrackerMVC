@@ -22,7 +22,7 @@ class ExpenseView:
             raise ValueError(self.EMPTY_VALUE_ERROR_MESSAGE)
         expense_cost = input("Enter how much you've spent (£): ")
         try:
-            expense_cost = int(expense_cost)
+            expense_cost = float(expense_cost)
         except ValueError:
             raise ValueError(self.WRONG_TYPE_MESSAGE)
 

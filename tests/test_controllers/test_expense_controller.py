@@ -25,17 +25,51 @@ class TestExpenseController(unittest.TestCase):
         # given
         view = ExpenseView("DefaultV")
         self.controller = ExpenseController(view)
-
         captured_output = StringIO()
         # redirect stdout
         sys.stdout = captured_output
 
+        #when
         self.controller.add_expense()
-
         output = captured_output.getvalue().strip()
         expected_output = "DefaultV - Added expense: coffee, £3.0, category 1"
+
+        #then
         self.assertIn(expected_output, output)
 
+    @patch('builtins.input', side_effect=["water", 250.99, 2])
+    def test_should_display_expense_correctly_float_num(self, mock_input):
+        # given
+        view = ExpenseView("DefaultV")
+        self.controller = ExpenseController(view)
+        captured_output = StringIO()
+        # redirect stdout
+        sys.stdout = captured_output
+
+        #when
+        self.controller.add_expense()
+        output = captured_output.getvalue().strip()
+        expected_output = "DefaultV - Added expense: water, £250.99, category 2"
+
+        #then
+        self.assertIn(expected_output, output)
+
+    @patch('builtins.input', side_effect=["water", "250.99", "2"])
+    def test_should_display_expense_correctly_using_strings(self, mock_input):
+        # given
+        view = ExpenseView("DefaultV")
+        self.controller = ExpenseController(view)
+        captured_output = StringIO()
+        # redirect stdout
+        sys.stdout = captured_output
+
+        # when
+        self.controller.add_expense()
+        output = captured_output.getvalue().strip()
+        expected_output = "DefaultV - Added expense: water, £250.99, category 2"
+
+        # then
+        self.assertIn(expected_output, output)
 
 if __name__ == '__main__':
     unittest.main()
