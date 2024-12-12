@@ -16,8 +16,14 @@ class ExpenseController:
 
     def add_expense(self):
       name, price, category = self.view.get_user_input()
-      #todo: call the model to save to file
+
+      #self.model.name = name
+      #self.model.price = price
+     # self.model.category = category
+
       self.view.display_expense(self.model)
+      self.model.add_expense_to_file(self.model)
+
 
     def show_total_expenditure(self):
         #todo: replace hardcoded value and call the model to get it

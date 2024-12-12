@@ -1,7 +1,10 @@
+import os
 import sys
 import unittest
 from io import StringIO
 from unittest.mock import patch, Mock
+
+import pandas as pd
 
 from app.controllers.expense_controller import ExpenseController
 from app.models.expense import Expense
@@ -42,6 +45,7 @@ class TestExpenseController(unittest.TestCase):
 
         #then
         self.assertIn(expected_output, output)
+        self.delete_file(Expense.PATH_TO_FILE)
 
     @patch('builtins.input', side_effect=["water", 250.99, 2])
     def test_should_display_expense_correctly_float_num(self, mock_input):
@@ -60,6 +64,7 @@ class TestExpenseController(unittest.TestCase):
 
         #then
         self.assertIn(expected_output, output)
+        self.delete_file(Expense.PATH_TO_FILE)
 
     @patch('builtins.input', side_effect=["water", "250.99", "2"])
     def test_should_display_expense_correctly_using_strings(self, mock_input):
@@ -78,6 +83,7 @@ class TestExpenseController(unittest.TestCase):
 
         # then
         self.assertIn(expected_output, output)
+        self.delete_file(Expense.PATH_TO_FILE)
 
 
     def test_should_controller_call_show_total_expenditure(self):
@@ -104,7 +110,44 @@ class TestExpenseController(unittest.TestCase):
         # then
         mock_view.display_breakdown.assert_called_once()
 
+    #Testing the file addition
+    @patch('builtins.input', side_effect=["water", "250.99", "2"])
+    def test_should_create_file(self, mock_input):
+        # given
+        view = ExpenseView("DefaultV")
+        model = Expense("water", "250.99", "2")
+        self.controller = ExpenseController(view, model)
 
+        # when
+        self.controller.add_expense()
+
+        # then
+        self.assertTrue(os.path.isfile(Expense.PATH_TO_FILE))
+        self.delete_file(Expense.PATH_TO_FILE)
+
+    @patch('builtins.input', side_effect=["water", "250.99", "2"])
+    def test_should_add_expense_to_file(self, mock_input):
+        # given
+        view = ExpenseView("DefaultV")
+        model = Expense("water", "250.99", "2")
+        self.controller = ExpenseController(view, model)
+
+        # when
+        self.controller.add_expense()
+
+        # then
+        df = pd.read_csv(Expense.PATH_TO_FILE, header=None)
+        rows = len(df)
+        self.assertEqual(rows, 1, "Row number should be 1")
+        col_list = df[0].tolist()
+        self.assertTrue('water' in col_list)
+        self.delete_file(Expense.PATH_TO_FILE)
+
+    @staticmethod
+    def delete_file(file_name):
+        # Clean up by removing the file after the test
+        if os.path.isfile(file_name):
+            os.remove(file_name)
 
 if __name__ == '__main__':
     unittest.main()

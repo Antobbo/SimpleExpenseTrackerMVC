@@ -1,3 +1,6 @@
+import csv
+
+
 class Expense:
     MONTHLY_BUDGET = 2000
     PATH_TO_FILE = "expenses.csv"
@@ -22,3 +25,11 @@ class Expense:
 
     def get_category(self):
         return self.category
+
+    def add_expense_to_file(self, expense):
+        expense_to_add = [
+            [expense.name, expense.price, expense.category]
+        ]
+        with open(self.PATH_TO_FILE, mode='a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(expense_to_add)
