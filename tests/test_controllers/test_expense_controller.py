@@ -1,10 +1,9 @@
 import sys
 import unittest
 from io import StringIO
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 
 from app.controllers.expense_controller import ExpenseController
-from app.models.expense import Expense
 from app.views.expense_view import ExpenseView
 
 class TestExpenseController(unittest.TestCase):
@@ -70,6 +69,31 @@ class TestExpenseController(unittest.TestCase):
 
         # then
         self.assertIn(expected_output, output)
+
+
+    def test_should_controller_call_show_total_expenditure(self):
+        # given
+        mock_view = Mock(spec=ExpenseView)
+        self.controller = ExpenseController(mock_view)
+
+        # when
+        self.controller.show_total_expenditure()
+
+        # then
+        mock_view.display_total.assert_called_once()
+
+    def test_should_controller_call_show_expenditure_breakdown(self):
+        # given
+        mock_view = Mock(spec=ExpenseView)
+        self.controller = ExpenseController(mock_view)
+
+        # when
+        self.controller.show_expenditure_breakdown()
+
+        # then
+        mock_view.display_breakdown.assert_called_once()
+
+
 
 if __name__ == '__main__':
     unittest.main()
