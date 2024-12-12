@@ -4,6 +4,7 @@ from io import StringIO
 from unittest.mock import patch, Mock
 
 from app.controllers.expense_controller import ExpenseController
+from app.models.expense import Expense
 from app.views.expense_view import ExpenseView
 
 class TestExpenseController(unittest.TestCase):
@@ -11,19 +12,25 @@ class TestExpenseController(unittest.TestCase):
     def test_should_controller_have_valid_model_and_view(self):
         #given
         view = ExpenseView("DefaultV")
-        self.controller = ExpenseController(view)
+        model = Expense("coffee", 25, 1)
+        self.controller = ExpenseController(view, model)
 
         #when
         view_from_controller = self.controller.get_view()
+        model_from_controller = self.controller.get_model()
 
         #then
         self.assertEqual(view.get_view_name(), view_from_controller.get_view_name(), "The view name should match")
+        self.assertEqual(model.get_name(), model_from_controller.get_name(), "Name of expense should match")
+        self.assertEqual(model.get_category(), model_from_controller.get_category(), "Category should match")
+        self.assertEqual(model.get_price(), model_from_controller.get_price(), "Price should match")
 
     @patch('builtins.input', side_effect=["coffee", 3.0, 1])
     def test_should_display_expense_correctly(self, mock_input):
         # given
         view = ExpenseView("DefaultV")
-        self.controller = ExpenseController(view)
+        model = Expense("coffee", 3.0, 1)
+        self.controller = ExpenseController(view, model)
         captured_output = StringIO()
         # redirect stdout
         sys.stdout = captured_output
@@ -40,7 +47,8 @@ class TestExpenseController(unittest.TestCase):
     def test_should_display_expense_correctly_float_num(self, mock_input):
         # given
         view = ExpenseView("DefaultV")
-        self.controller = ExpenseController(view)
+        model = Expense("water", 250.99, 2)
+        self.controller = ExpenseController(view, model)
         captured_output = StringIO()
         # redirect stdout
         sys.stdout = captured_output
@@ -57,7 +65,8 @@ class TestExpenseController(unittest.TestCase):
     def test_should_display_expense_correctly_using_strings(self, mock_input):
         # given
         view = ExpenseView("DefaultV")
-        self.controller = ExpenseController(view)
+        model = Expense("water", "250.99", "2")
+        self.controller = ExpenseController(view, model)
         captured_output = StringIO()
         # redirect stdout
         sys.stdout = captured_output
@@ -74,7 +83,8 @@ class TestExpenseController(unittest.TestCase):
     def test_should_controller_call_show_total_expenditure(self):
         # given
         mock_view = Mock(spec=ExpenseView)
-        self.controller = ExpenseController(mock_view)
+        mock_model = Mock(spec=Expense)
+        self.controller = ExpenseController(mock_view, mock_model)
 
         # when
         self.controller.show_total_expenditure()
@@ -85,7 +95,8 @@ class TestExpenseController(unittest.TestCase):
     def test_should_controller_call_show_expenditure_breakdown(self):
         # given
         mock_view = Mock(spec=ExpenseView)
-        self.controller = ExpenseController(mock_view)
+        mock_model = Mock(spec=Expense)
+        self.controller = ExpenseController(mock_view, mock_model)
 
         # when
         self.controller.show_expenditure_breakdown()
