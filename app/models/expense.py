@@ -1,7 +1,9 @@
 import csv
 
+import pandas as pd
 
 class Expense:
+    FILE_NOT_FOUND_ERROR_MESSAGE = "The file wasn't found"
     MONTHLY_BUDGET = 2000
     PATH_TO_FILE = "expenses.csv"
     EXPENSE_CATEGORY = {
@@ -33,3 +35,11 @@ class Expense:
         with open(self.PATH_TO_FILE, mode='a', newline='') as file:
             writer = csv.writer(file)
             writer.writerows(expense_to_add)
+
+    def get_total_expenditure(self):
+        try:
+            df = pd.read_csv(self.PATH_TO_FILE)
+        except FileNotFoundError:
+            raise FileNotFoundError(self.FILE_NOT_FOUND_ERROR_MESSAGE)
+        else:
+            return df[1].sum()
