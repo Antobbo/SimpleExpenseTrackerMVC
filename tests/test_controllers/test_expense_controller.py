@@ -98,9 +98,8 @@ class TestExpenseController(unittest.TestCase):
         # then
         mock_view.display_total.assert_called_once()
 
-    #TODO: TO FINISH!
     @patch('builtins.input', side_effect=["water", "250.99", "2", "groceries", "100.50", "1", "gym", "50", "4"])
-    def test_should_controller_call_show_total_expenditure_all_the_way_to_view(self, mock_input):
+    def test_should_controller_call_show_total_expenditure_in_view_and_have_expected_value_with_multiple_expenses(self, mock_input):
         # given
         expected_total = 401.49
         view = ExpenseView("DefaultV")
@@ -118,13 +117,28 @@ class TestExpenseController(unittest.TestCase):
         self.controller.show_total_expenditure()
 
         # then
-        self.assertEqual(captured_output.getvalue().strip(), "DefaultV - You've spent a total of £401.49")
+        self.assertEqual(captured_output.getvalue().strip(), f"DefaultV - You've spent a total of £{expected_total}")
+        self.delete_file(Expense.PATH_TO_FILE)
 
+    @patch('builtins.input', side_effect=["water", "250.99", "2"])
+    def test_should_controller_call_show_total_expenditure_in_view_and_have_expected_value_with_singe_expense(self, mock_input):
+        # given
+        expected_total = 250.99
+        view = ExpenseView("DefaultV")
+        model = Expense("empty", "0.00", "0")
+        self.controller = ExpenseController(view, model)
 
+        # when
+        self.controller.add_expense()
 
-        #self.delete_file(Expense.PATH_TO_FILE)
+        captured_output = StringIO()
+        # redirect stdout
+        sys.stdout = captured_output
+        self.controller.show_total_expenditure()
 
-
+        # then
+        self.assertEqual(captured_output.getvalue().strip(), f"DefaultV - You've spent a total of £{expected_total}")
+        self.delete_file(Expense.PATH_TO_FILE)
 
     def test_should_controller_call_show_expenditure_breakdown(self):
         # given
