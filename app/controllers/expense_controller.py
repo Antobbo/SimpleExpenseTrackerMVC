@@ -25,11 +25,13 @@ class ExpenseController:
       self.view.display_expense(expense)
       self.model.add_expense_to_file(expense)
 
-
     def show_total_expenditure(self):
         total = self.model.get_total_expenditure()
-        #total = 150.99
         self.view.display_total(total)
+
+    def show_remaining_allowance(self):
+        remaining_allowance = self.model.get_remaining_allowance()
+        self.view.display_remaining_allowance(remaining_allowance)
 
     def show_expenditure_breakdown(self):
         #todo: replace hardcoded value and call the model to get it

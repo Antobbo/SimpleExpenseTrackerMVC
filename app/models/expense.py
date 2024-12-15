@@ -43,3 +43,6 @@ class Expense:
             raise FileNotFoundError(self.FILE_NOT_FOUND_ERROR_MESSAGE)
         else:
             return df[1].sum()
+
+    def get_remaining_allowance(self):
+        return self.MONTHLY_BUDGET - self.get_total_expenditure()

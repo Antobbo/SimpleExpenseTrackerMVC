@@ -42,6 +42,20 @@ class TestExpense(unittest.TestCase):
         # then
         self.assertIn(current_expense.FILE_NOT_FOUND_ERROR_MESSAGE, str(context.exception))
 
+    def test_should_sum_generate_error_for_non_existent_file_when_calling_get_remaining_allowance(self):
+        # given
+        name = "Coffee"
+        category = "Food"
+        price = 3.50
+
+        # when
+        current_expense = Expense(name, price, category)
+        with self.assertRaises(FileNotFoundError) as context:
+            # when
+            current_expense.get_remaining_allowance()
+        # then
+        self.assertIn(current_expense.FILE_NOT_FOUND_ERROR_MESSAGE, str(context.exception))
+
 
 
 

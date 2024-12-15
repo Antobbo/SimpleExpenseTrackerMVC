@@ -127,13 +127,12 @@ class TestExpenseController(unittest.TestCase):
         view = ExpenseView("DefaultV")
         model = Expense("empty", "0.00", "0")
         self.controller = ExpenseController(view, model)
-
-        # when
         self.controller.add_expense()
-
         captured_output = StringIO()
         # redirect stdout
         sys.stdout = captured_output
+
+        # when
         self.controller.show_total_expenditure()
 
         # then
@@ -206,6 +205,26 @@ class TestExpenseController(unittest.TestCase):
         self.assertTrue('groceries' in col_list)
         self.assertTrue('gym' in col_list)
         self.delete_file(Expense.PATH_TO_FILE)
+
+    @patch('builtins.input', side_effect=["water", "1250.50", "2"])
+    def test_should_get_correct_remaining_allowance(self, mock_input):
+        #given
+        expected_remaining_allowance = 749.50
+        view = ExpenseView("DefaultV")
+        model = Expense("empty", "0.00", "0")
+        self.controller = ExpenseController(view, model)
+        self.controller.add_expense()
+        captured_output = StringIO()
+        # redirect stdout
+        sys.stdout = captured_output
+
+        # when
+        self.controller.show_remaining_allowance()
+
+        # then
+        self.assertEqual(captured_output.getvalue().strip(), f"DefaultV - You have left £{expected_remaining_allowance}")
+        self.delete_file(Expense.PATH_TO_FILE)
+
 
     @staticmethod
     def delete_file(file_name):
