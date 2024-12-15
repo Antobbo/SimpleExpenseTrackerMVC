@@ -38,7 +38,7 @@ class Expense:
 
     def get_total_expenditure(self):
         try:
-            df = pd.read_csv(self.PATH_TO_FILE)
+            df = pd.read_csv(self.PATH_TO_FILE, header=None)
         except FileNotFoundError:
             raise FileNotFoundError(self.FILE_NOT_FOUND_ERROR_MESSAGE)
         else:
