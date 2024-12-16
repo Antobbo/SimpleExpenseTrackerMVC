@@ -225,6 +225,30 @@ class TestExpenseController(unittest.TestCase):
         self.assertEqual(captured_output.getvalue().strip(), f"DefaultV - You have left £{expected_remaining_allowance}")
         self.delete_file(Expense.PATH_TO_FILE)
 
+    @patch('builtins.input', side_effect=["water", "250.99", "2", "electricity", "100.50", "2", "gym", "50", "4"])
+    def test_should_call_get_expenditure_breakdown_to_get_correct_breakdown(self, mock_input):
+        # given
+        expected_output = (
+            "DefaultV - Breakdown of expenses:\n"
+            "Category 2: £351.49\n"
+            "Category 4: £50.0"
+        )
+        view = ExpenseView("DefaultV")
+        model = Expense("empty", "0.00", "0")
+        self.controller = ExpenseController(view, model)
+        self.controller.add_expense()
+        self.controller.add_expense()
+        self.controller.add_expense()
+
+        # when
+        captured_output = StringIO()
+        # redirect stdout
+        sys.stdout = captured_output
+        self.controller.show_expenditure_breakdown()
+
+        # then
+        self.assertEqual(captured_output.getvalue().strip(), expected_output)
+        self.delete_file(Expense.PATH_TO_FILE)
 
     @staticmethod
     def delete_file(file_name):

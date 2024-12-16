@@ -46,3 +46,7 @@ class Expense:
 
     def get_remaining_allowance(self):
         return self.MONTHLY_BUDGET - self.get_total_expenditure()
+
+    def get_expenditure_breakdown(self):
+        df = pd.read_csv(self.PATH_TO_FILE, header=None, names=['Expense', 'Price', 'Category'])
+        return df.groupby('Category')['Price'].sum()

@@ -34,6 +34,5 @@ class ExpenseController:
         self.view.display_remaining_allowance(remaining_allowance)
 
     def show_expenditure_breakdown(self):
-        #todo: replace hardcoded value and call the model to get it
-        breakdown = nullcontext
+        breakdown = self.model.get_expenditure_breakdown()
         self.view.display_breakdown(breakdown)
