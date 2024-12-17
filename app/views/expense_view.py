@@ -9,6 +9,9 @@ class ExpenseView:
     WRONG_TYPE_MESSAGE = "The value should be a number"
     WRONG_EXPENSE_CATEGORY = f"Must be from {next(iter(Expense.EXPENSE_CATEGORY))} to {len(Expense.EXPENSE_CATEGORY)}"
 
+    def get_view_name(self):
+        return self.view_name
+
     def get_data(self):
         print(f"Expense app tracker.")
         return self.get_user_input()
@@ -19,11 +22,11 @@ class ExpenseView:
             raise ValueError(self.EMPTY_VALUE_ERROR_MESSAGE)
         expense_cost = input("Enter how much you've spent (£): ")
         try:
-            expense_cost = int(expense_cost)
+            expense_cost = float(expense_cost)
         except ValueError:
             raise ValueError(self.WRONG_TYPE_MESSAGE)
 
-        expense_category = input(f"Enter expense category from {next(iter(Expense.EXPENSE_CATEGORY))} to {len(Expense.EXPENSE_CATEGORY)}: ")
+        expense_category = input(f"Enter expense category from {next(iter(Expense.EXPENSE_CATEGORY))} to {len(Expense.EXPENSE_CATEGORY)} which are: {', '.join(Expense.EXPENSE_CATEGORY.values())}: ")
         try:
             expense_category = int(expense_category)
             if expense_category < next(iter(Expense.EXPENSE_CATEGORY)) or expense_category > len(Expense.EXPENSE_CATEGORY):
