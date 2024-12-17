@@ -56,8 +56,5 @@ class TestExpense(unittest.TestCase):
         # then
         self.assertIn(current_expense.FILE_NOT_FOUND_ERROR_MESSAGE, str(context.exception))
 
-
-
-
 if __name__ == '__main__':
     unittest.main()

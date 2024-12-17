@@ -18,11 +18,6 @@ class ExpenseController:
       self.view.display_expense(self.model)
       self.model.add_expense_to_file(self.model)
 
-      # expense = Expense(name, price, category)
-      # self.view.display_expense(expense)
-      # self.model.add_expense_to_file(expense)
-
-
     def show_total_expenditure(self):
         total = self.model.get_total_expenditure()
         self.view.display_total(total)

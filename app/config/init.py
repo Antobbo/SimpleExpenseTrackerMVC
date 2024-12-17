@@ -7,8 +7,6 @@ def main():
     #create view
     view = ExpenseView("Expense Tracker")
 
-    #name, price, category = view.get_user_input()
-
     #create empty model
     model = Expense("", 0, 0)
 
