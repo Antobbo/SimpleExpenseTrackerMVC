@@ -17,10 +17,5 @@ And this gives this output:
 This created the following csv file called `expenses.csv`:
 ![csv file created](images/csv_sample.jpg)
 
-This is the content of the csv file:
+This shows the content of the csv file:
 ![csv file content](images/csv_content_sample.jpg)
-
-
-
-
-
