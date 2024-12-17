@@ -12,10 +12,13 @@ From the root folder run the main script:
 `C:\Users\antob\Documents\python\tests\SimpleExpenseTrackerMVC>python -m app.config.init`
 
 And this gives this output:
+
 ![Execution sample](images/execution_sample.jpg)
 
 This created the following csv file called `expenses.csv`:
+
 ![csv file created](images/csv_sample.jpg)
 
 This shows the content of the csv file:
+
 ![csv file content](images/csv_content_sample.jpg)
