@@ -26,7 +26,7 @@ class ExpenseView:
         except ValueError:
             raise ValueError(self.WRONG_TYPE_MESSAGE)
 
-        expense_category = input(f"Enter expense category from {next(iter(Expense.EXPENSE_CATEGORY))} to {len(Expense.EXPENSE_CATEGORY)}: ")
+        expense_category = input(f"Enter expense category from {next(iter(Expense.EXPENSE_CATEGORY))} to {len(Expense.EXPENSE_CATEGORY)} which are: {', '.join(Expense.EXPENSE_CATEGORY.values())}: ")
         try:
             expense_category = int(expense_category)
             if expense_category < next(iter(Expense.EXPENSE_CATEGORY)) or expense_category > len(Expense.EXPENSE_CATEGORY):

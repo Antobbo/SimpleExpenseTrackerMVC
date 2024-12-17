@@ -1,8 +1,3 @@
-from contextlib import nullcontext
-
-from app.models.expense import Expense
-
-
 class ExpenseController:
     def __init__(self, view, model):
         self.view = view
@@ -17,13 +12,16 @@ class ExpenseController:
     def add_expense(self):
       name, price, category = self.view.get_user_input()
 
-      #self.model.name = name
-      #self.model.price = price
-     # self.model.category = category
-      expense = Expense(name, price, category)
+      self.model.name = name
+      self.model.price = price
+      self.model.category = category
+      self.view.display_expense(self.model)
+      self.model.add_expense_to_file(self.model)
 
-      self.view.display_expense(expense)
-      self.model.add_expense_to_file(expense)
+      # expense = Expense(name, price, category)
+      # self.view.display_expense(expense)
+      # self.model.add_expense_to_file(expense)
+
 
     def show_total_expenditure(self):
         total = self.model.get_total_expenditure()
